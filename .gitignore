@@ -1,0 +1,9 @@
+# Code
+css/
+js/dist/
+
+# Media files
+media/
+
+# Misc
+.DS_Store
