@@ -1,5 +1,7 @@
-const videoPlayer = document.querySelector('#video-player');
+import VideoPlayer from './video_player';
 
-videoPlayer.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  const videoPlayer = new VideoPlayer();
+
+  videoPlayer.setupControls();
 });
