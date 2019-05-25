@@ -12,9 +12,38 @@
   </video>
 
   <ul id="video-player-controls">
+    <li><progress id="progress-bar" max="100" value="0">0</progress></li>
     <li><button id="play-pause" type="button">Play/Pause</button></li>
     <li><button id="mute-unmute" type="button">Mute/Unmute</button></li>
   </ul>
+
+  <table>
+    <thead>
+      <td colspan="2">Keyboard Shortcuts/Other Controls</td>
+    </thead>
+    <tbody>
+      <tr>
+        <td>K/Spacebar/Click on video</td>
+        <td>Play/Pause</td>
+      </tr>
+      <tr>
+        <td>M</td>
+        <td>Mute/Unmute</td>
+      </tr>
+      <tr>
+        <td>J/L</td>
+        <td>Rewind/Fast Forward 10 seconds</td>
+      </tr>
+      <tr>
+        <td>, (comma)/. (period)</td>
+        <td>Rewind/Fast Forward 5 seconds</td>
+      </tr>
+      <tr>
+        <td>Left arrow key/Right arrow key</td>
+        <td>Rewind/Fast Forward 1 second</td>
+      </tr>
+    </tbody>
+  </table>
 
   <script src="./dist/js/bundle.js"></script>
 </body>
