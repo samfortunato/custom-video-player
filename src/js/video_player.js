@@ -28,8 +28,8 @@ class VideoPlayer {
   }
 
   handleMuteUnmute() {
-    if (this.video.muted) this.video.volume = 1;
-    else this.video.volume = 0;
+    if (this.video.muted) this.video.muted = false;
+    else this.video.muted = true;
   }
 }
 
