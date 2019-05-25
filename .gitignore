@@ -1,6 +1,9 @@
+# Packages
+node_modules/
+
 # Code
 css/
-js/dist/
+dist/
 
 # Media files
 media/
