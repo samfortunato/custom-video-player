@@ -20,10 +20,18 @@ class VideoPlayer {
       evt.preventDefault();
     });
 
-    this.video.addEventListener('click', this.handlePlayPause);
-    this.playerControls.playPause.addEventListener('click', this.handlePlayPause);
-    this.playerControls.muteUnmute.addEventListener('click', this.handleMuteUnmute);
+    const { playPause, muteUnmute, progressBar } = this.playerControls;
 
+    this.video.addEventListener('click', this.handlePlayPause);
+    playPause.addEventListener('click', this.handlePlayPause);
+    muteUnmute.addEventListener('click', this.handleMuteUnmute);
+
+    progressBar.max = this.video.duration;
+    this.video.addEventListener('timeupdate', () => {
+      progressBar.value = this.video.currentTime;
+      progressBar.textContent = this.video.currentTime;
+    });
+    
     document.addEventListener('keydown', this.handleKeyboardShortcuts);
   }
 
@@ -35,6 +43,11 @@ class VideoPlayer {
   handleMuteUnmute() {
     if (this.video.muted) this.video.muted = false;
     else this.video.muted = true;
+  }
+
+  handleLoop() {
+    if (this.video.loop) this.video.loop = false;
+    else this.video.loop = true;
   }
 
   handleKeyboardShortcuts(evt) {
@@ -70,6 +83,18 @@ class VideoPlayer {
 
       case 'ArrowRight':
         this.video.currentTime += 1;
+        break;
+
+      case '[':
+        this.video.playbackRate -= 0.1;
+        break;
+
+      case ']':
+        this.video.playbackRate += 0.1;
+        break;
+
+      case 'o':
+        this.handleLoop();
         break;
 
       default:
