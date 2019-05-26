@@ -7,12 +7,14 @@
   <title>Video Player</title>
 </head>
 <body>
-  <video id="video-player">
+  <video id="video-player" preload="metadata">
     <source src="./media/Rude Buster - Deltarune OST.mp4" type="video/mp4" />
   </video>
 
   <ul id="video-player-controls">
     <li><progress id="progress-bar" max="1" value="0">0</progress></li>
+    <li><span id="current-time">00:00:00</span></li>
+    <li><span id="video-duration">00:00:00</span></li>
     <li><button id="play-pause" type="button">Play/Pause</button></li>
     <li><button id="mute-unmute" type="button">Mute/Unmute</button></li>
   </ul>
@@ -31,6 +33,10 @@
       <tr>
         <td>M</td>
         <td>Mute/Unmute</td>
+      </tr>
+      <tr>
+        <td>; (semicolon)/' (single quote)</td>
+        <td>Decrease/increase volume by 0.1</td>
       </tr>
       <tr>
         <td>J/L</td>

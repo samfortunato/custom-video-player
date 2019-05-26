@@ -1,9 +1,7 @@
-import VideoPlayer from './video_player';
+import VideoPlayer from './video_player/video_player';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const videoPlayer = new VideoPlayer();
+const videoPlayer = new VideoPlayer();
 
-  if (videoPlayer.video.readyState >= 1) {
-    videoPlayer.setupControls();
-  }
+videoPlayer.video.addEventListener('loadeddata', () => {
+  videoPlayer.setupControls();
 });

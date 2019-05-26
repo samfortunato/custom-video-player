@@ -1,3 +1,5 @@
+import { secondsToHHMMSS } from '../util/time_formatting';
+
 class VideoPlayer {
   constructor() {
     this.video = document.querySelector('#video-player');
@@ -10,6 +12,8 @@ class VideoPlayer {
   get playerControls() {
     return {
       progressBar: document.querySelector('progress#progress-bar'),
+      currentTime: document.querySelector('span#current-time'),
+      videoDuration: document.querySelector('span#video-duration'),
       playPause: document.querySelector('button#play-pause'),
       muteUnmute: document.querySelector('button#mute-unmute'),
     };
@@ -20,17 +24,28 @@ class VideoPlayer {
       evt.preventDefault();
     });
 
-    const { playPause, muteUnmute, progressBar } = this.playerControls;
-
-    this.video.addEventListener('click', this.handlePlayPause);
-    playPause.addEventListener('click', this.handlePlayPause);
-    muteUnmute.addEventListener('click', this.handleMuteUnmute);
+    const {
+      progressBar,
+      currentTime,
+      videoDuration,
+      playPause,
+      muteUnmute,
+    } = this.playerControls;
 
     progressBar.max = this.video.duration;
     this.video.addEventListener('timeupdate', () => {
       progressBar.value = this.video.currentTime;
-      progressBar.textContent = this.video.currentTime;
+      progressBar.textContent = secondsToHHMMSS(this.video.currentTime);
     });
+
+    videoDuration.textContent = secondsToHHMMSS(this.video.duration);
+    this.video.addEventListener('timeupdate', () => {
+      currentTime.textContent = secondsToHHMMSS(this.video.currentTime);
+    });
+
+    this.video.addEventListener('click', this.handlePlayPause);
+    playPause.addEventListener('click', this.handlePlayPause);
+    muteUnmute.addEventListener('click', this.handleMuteUnmute);
     
     document.addEventListener('keydown', this.handleKeyboardShortcuts);
   }
@@ -59,6 +74,16 @@ class VideoPlayer {
 
       case 'm':
         this.handleMuteUnmute();
+        break;
+
+      case ';':
+        if (this.video.volume < 0.1) this.video.volume = 0;
+        else this.video.volume -= 0.1;
+        break;
+
+      case '\'':
+        if (this.video.volume > 0.9) this.video.volume = 1;
+        else this.video.volume += 0.1;
         break;
 
       case 'j':
