@@ -16,6 +16,7 @@ class VideoPlayer {
       videoDuration: document.querySelector('span#video-duration'),
       playPause: document.querySelector('button#play-pause'),
       muteUnmute: document.querySelector('button#mute-unmute'),
+      volumeSlider: document.querySelector('#volume-slider'),
     };
   }
 
@@ -30,6 +31,7 @@ class VideoPlayer {
       videoDuration,
       playPause,
       muteUnmute,
+      volumeSlider,
     } = this.playerControls;
 
     progressBar.max = this.video.duration;
@@ -45,19 +47,41 @@ class VideoPlayer {
 
     this.video.addEventListener('click', this.handlePlayPause);
     playPause.addEventListener('click', this.handlePlayPause);
+
     muteUnmute.addEventListener('click', this.handleMuteUnmute);
+    volumeSlider.addEventListener('input', (evt) => {
+      this.video.volume = evt.target.value;
+    });
+    this.video.addEventListener('volumechange', () => {
+      volumeSlider.value = this.video.volume;
+    });
+
     
     document.addEventListener('keydown', this.handleKeyboardShortcuts);
   }
 
   handlePlayPause() {
-    if (this.video.paused) this.video.play();
-    else this.video.pause();
+    const { playPause } = this.playerControls;
+    
+    if (this.video.paused) {
+      this.video.play();
+      playPause.textContent = 'Pause';
+    } else {
+      this.video.pause();
+      playPause.textContent = 'Play';
+    }
   }
 
   handleMuteUnmute() {
-    if (this.video.muted) this.video.muted = false;
-    else this.video.muted = true;
+    const { muteUnmute } = this.playerControls;
+    
+    if (this.video.muted) {
+      this.video.muted = false;
+      muteUnmute.textContent = 'Mute';
+    } else {
+      this.video.muted = true;
+      muteUnmute.textContent = 'Unmute';
+    }
   }
 
   handleLoop() {
@@ -76,14 +100,18 @@ class VideoPlayer {
         this.handleMuteUnmute();
         break;
 
-      case ';':
-        if (this.video.volume < 0.1) this.video.volume = 0;
-        else this.video.volume -= 0.1;
+      case '-':
+        if (!evt.ctrlKey && !evt.metaKey) {
+          if (this.video.volume < 0.1) this.video.volume = 0;
+          else this.video.volume -= 0.1;
+        }
         break;
 
-      case '\'':
-        if (this.video.volume > 0.9) this.video.volume = 1;
-        else this.video.volume += 0.1;
+      case '=':
+        if (!evt.ctrlKey && !evt.metaKey) {
+          if (this.video.volume > 0.9) this.video.volume = 1;
+          else this.video.volume += 0.1;
+        }
         break;
 
       case 'j':
