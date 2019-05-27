@@ -1,6 +1,7 @@
 export const secondsToHHMMSS = (seconds) => {
-  const tempDate = new Date(seconds * 1000);
-  const hhMMSS = tempDate.toISOString().substring(11, 19);
+  const amtMilliseconds = seconds * 1000;
+  const secondsAsDate = new Date(amtMilliseconds * 1000);
+  const hhMMSSString = secondsAsDate.toISOString().substring(11, 19);
 
-  return hhMMSS;
+  return hhMMSSString;
 };

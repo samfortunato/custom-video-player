@@ -12,8 +12,9 @@ class VideoPlayer {
   get playerControls() {
     return {
       progressBar: document.querySelector('progress#progress-bar'),
-      currentTime: document.querySelector('span#current-time'),
-      videoDuration: document.querySelector('span#video-duration'),
+      playbackRate: document.querySelector('#playback-rate'),
+      currentTime: document.querySelector('#current-time'),
+      videoDuration: document.querySelector('#video-duration'),
       playPause: document.querySelector('button#play-pause'),
       muteUnmute: document.querySelector('button#mute-unmute'),
       volumeSlider: document.querySelector('#volume-slider'),
@@ -90,6 +91,8 @@ class VideoPlayer {
   }
 
   handleKeyboardShortcuts(evt) {
+    if (evt.ctrlKey || evt.metaKey || evt.shiftKey) return;
+    
     switch (evt.key) {
       case ' ':
       case 'k':
@@ -101,17 +104,13 @@ class VideoPlayer {
         break;
 
       case '-':
-        if (!evt.ctrlKey && !evt.metaKey) {
-          if (this.video.volume < 0.1) this.video.volume = 0;
-          else this.video.volume -= 0.1;
-        }
+        if (this.video.volume < 0.1) this.video.volume = 0;
+        else this.video.volume -= 0.1;
         break;
 
       case '=':
-        if (!evt.ctrlKey && !evt.metaKey) {
-          if (this.video.volume > 0.9) this.video.volume = 1;
-          else this.video.volume += 0.1;
-        }
+        if (this.video.volume > 0.9) this.video.volume = 1;
+        else this.video.volume += 0.1;
         break;
 
       case 'j':
@@ -138,13 +137,33 @@ class VideoPlayer {
         this.video.currentTime += 1;
         break;
 
-      case '[':
-        this.video.playbackRate -= 0.1;
-        break;
+      case '[': {
+        let playbackRateTimes10 = this.video.playbackRate * 10;
+        playbackRateTimes10 -= 1;
 
-      case ']':
-        this.video.playbackRate += 0.1;
+        if (playbackRateTimes10 < 1) {
+          this.video.playbackRate = 0.1;
+        } else {
+          this.video.playbackRate = playbackRateTimes10 / 10;
+        }
+
+        this.playerControls.playbackRate.textContent = this.video.playbackRate;
         break;
+      }
+
+      case ']': {
+        let playbackRateTimes10 = this.video.playbackRate * 10;
+        playbackRateTimes10 += 1;
+
+        if (playbackRateTimes10 > 159) {
+          this.video.playbackRate = 15.9;
+        } else {
+          this.video.playbackRate = playbackRateTimes10 / 10;
+        }
+
+        this.playerControls.playbackRate.textContent = this.video.playbackRate;
+        break;
+      }
 
       case 'o':
         this.handleLoop();
