@@ -113,6 +113,27 @@ class VideoPlayer {
         else this.video.volume += 0.1;
         break;
 
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '0':
+        if (evt.key === '1') {
+          this.video.currentTime = 0;
+        } else if (evt.key === '0') {
+          this.video.currentTime = this.video.duration;
+        } else {
+          let timeToSkipTo = (this.video.duration / 10) * Number(evt.key);
+          this.video.currentTime = timeToSkipTo;
+        }
+
+        break;
+
       case 'j':
         this.video.currentTime -= 10;
         break;
